@@ -1,11 +1,24 @@
 package com.example.flightmanagementsystem.model;
 
 public class Luggage {
+
+    public enum Status {
+        CHECKED_IN, LOADED, DELIVERED;
+
+        public boolean canChangeTo(Status next) {
+            return switch (this) {
+                case CHECKED_IN -> next == LOADED;
+                case LOADED -> next == DELIVERED;
+                case DELIVERED -> false;
+            };
+        }
+    }
+
     private String id;
     private String ticketId;
-    private String status;
+    private Status status;
 
-    public Luggage(String id, String ticketId, String status) {
+    public Luggage(String id, String ticketId, Status status) {
         this.id = id;
         this.ticketId = ticketId;
         this.status = status;
@@ -27,11 +40,11 @@ public class Luggage {
         this.ticketId = ticketId;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 }
