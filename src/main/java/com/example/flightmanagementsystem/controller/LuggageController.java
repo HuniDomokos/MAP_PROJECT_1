@@ -16,7 +16,7 @@ public class LuggageController {
     }
 
     public record LuggageRequest(String ticketId) {}
-    public record StatusRequest(String status) {}
+    public record StatusRequest(Luggage.Status status) {}
 
     @GetMapping
     public List<Luggage> getAll() {
