@@ -1,44 +1,60 @@
 package com.example.flightmanagementsystem.controller;
 
-import com.example.flightmanagementsystem.model.Flight;
+import com.example.flightmanagementsystem.service.AirplaneService;
 import com.example.flightmanagementsystem.service.FlightService;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-import java.time.LocalDateTime;
-import java.util.List;
+import com.example.flightmanagementsystem.service.NoticeBoardService;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@RestController
+import java.time.LocalDateTime;
+
+@Controller
 @RequestMapping("/flights")
 public class FlightController {
     private final FlightService flightService;
+    private final AirplaneService airplaneService;
+    private final NoticeBoardService noticeBoardService;
 
-    public FlightController(FlightService flightService) {
+    public FlightController(FlightService flightService,
+                            AirplaneService airplaneService,
+                            NoticeBoardService noticeBoardService) {
         this.flightService = flightService;
+        this.airplaneService = airplaneService;
+        this.noticeBoardService = noticeBoardService;
     }
-
-    public record FlightRequest(String name, String airplaneId, String noticeBoardId,
-                                LocalDateTime departureTime) {}
 
     @GetMapping
-    public List<Flight> getAll() {
-        return flightService.getAllFlights();
+    public String index(Model model) {
+        model.addAttribute("flights", flightService.getAllFlights());
+        return "flight/index";
     }
 
-    @GetMapping("/{id}")
-    public Flight getById(@PathVariable("id") String id) {
-        return flightService.getFlightById(id);
+    @GetMapping("/new")
+    public String form(Model model) {
+        model.addAttribute("airplanes", airplaneService.getAllAirplanes());
+        model.addAttribute("noticeBoards", noticeBoardService.getAllNoticeBoards());
+        return "flight/form";
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Flight create(@RequestBody FlightRequest request) {
-        return flightService.createFlight(request.name(), request.airplaneId(),
-                request.noticeBoardId(), request.departureTime());
+    public String create(@RequestParam("name") String name,
+                         @RequestParam("airplaneId") String airplaneId,
+                         @RequestParam("noticeBoardId") String noticeBoardId,
+                         @RequestParam("departureTime")
+                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime departureTime) {
+        flightService.createFlight(name, airplaneId, noticeBoardId, departureTime);
+        return "redirect:/flights";
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") String id) {
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable("id") String id) {
         flightService.deleteFlight(id);
+        return "redirect:/flights";
     }
 }

@@ -1,12 +1,15 @@
 package com.example.flightmanagementsystem.controller;
 
-import com.example.flightmanagementsystem.model.Airplane;
 import com.example.flightmanagementsystem.service.AirplaneService;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@RestController
+@Controller
 @RequestMapping("/airplanes")
 public class AirplaneController {
     private final AirplaneService airplaneService;
@@ -15,32 +18,27 @@ public class AirplaneController {
         this.airplaneService = airplaneService;
     }
 
-    public record AirplaneRequest(int number, int capacity) {}
-
     @GetMapping
-    public List<Airplane> getAll() {
-        return airplaneService.getAllAirplanes();
+    public String index(Model model) {
+        model.addAttribute("airplanes", airplaneService.getAllAirplanes());
+        return "airplane/index";
     }
 
-    @GetMapping("/{id}")
-    public Airplane getById(@PathVariable("id") String id) {
-        return airplaneService.getAirplaneById(id);
+    @GetMapping("/new")
+    public String form() {
+        return "airplane/form";
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Airplane create(@RequestBody AirplaneRequest request) {
-        return airplaneService.createAirplane(request.number(), request.capacity());
+    public String create(@RequestParam("number") int number,
+                         @RequestParam("capacity") int capacity) {
+        airplaneService.createAirplane(number, capacity);
+        return "redirect:/airplanes";
     }
 
-    @PutMapping("/{id}")
-    public Airplane update(@PathVariable("id") String id, @RequestBody AirplaneRequest request) {
-        return airplaneService.updateAirplane(id, request.number(), request.capacity());
-    }
-
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") String id) {
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable("id") String id) {
         airplaneService.deleteAirplane(id);
+        return "redirect:/airplanes";
     }
 }

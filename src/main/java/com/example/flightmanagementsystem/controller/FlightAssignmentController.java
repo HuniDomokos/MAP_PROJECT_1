@@ -1,41 +1,54 @@
 package com.example.flightmanagementsystem.controller;
 
-import com.example.flightmanagementsystem.model.FlightAssignment;
 import com.example.flightmanagementsystem.service.FlightAssignmentService;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
+import com.example.flightmanagementsystem.service.FlightService;
+import com.example.flightmanagementsystem.service.StaffService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@RestController
+@Controller
 @RequestMapping("/flight-assignments")
 public class FlightAssignmentController {
     private final FlightAssignmentService assignmentService;
+    private final FlightService flightService;
+    private final StaffService staffService;
 
-    public FlightAssignmentController(FlightAssignmentService assignmentService) {
+    public FlightAssignmentController(FlightAssignmentService assignmentService,
+                                      FlightService flightService,
+                                      StaffService staffService) {
         this.assignmentService = assignmentService;
+        this.flightService = flightService;
+        this.staffService = staffService;
     }
-
-    public record AssignmentRequest(String flightId, String staffId) {}
 
     @GetMapping
-    public List<FlightAssignment> getAll() {
-        return assignmentService.getAllAssignments();
+    public String index(Model model) {
+        model.addAttribute("assignments", assignmentService.getAllAssignments());
+        return "flightassignment/index";
     }
 
-    @GetMapping("/flight/{flightId}")
-    public List<FlightAssignment> getByFlight(@PathVariable("flightId") String flightId) {
-        return assignmentService.getAssignmentsByFlight(flightId);
+    @GetMapping("/new")
+    public String form(Model model) {
+        model.addAttribute("flights", flightService.getAllFlights());
+        model.addAttribute("staffMembers", staffService.getAllStaff());
+        return "flightassignment/form";
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public FlightAssignment assign(@RequestBody AssignmentRequest request) {
-        return assignmentService.assignStaff(request.flightId(), request.staffId());
+    public String create(@RequestParam("flightId") String flightId,
+                         @RequestParam("staffId") String staffId) {
+        assignmentService.assignStaff(flightId, staffId);
+        return "redirect:/flight-assignments";
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void remove(@PathVariable("id") String id) {
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable("id") String id) {
         assignmentService.removeAssignment(id);
+        return "redirect:/flight-assignments";
     }
 }

@@ -1,41 +1,47 @@
 package com.example.flightmanagementsystem.controller;
 
-import com.example.flightmanagementsystem.model.Luggage;
 import com.example.flightmanagementsystem.service.LuggageService;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
+import com.example.flightmanagementsystem.service.TicketService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@RestController
+@Controller
 @RequestMapping("/luggage")
 public class LuggageController {
     private final LuggageService luggageService;
+    private final TicketService ticketService;
 
-    public LuggageController(LuggageService luggageService) {
+    public LuggageController(LuggageService luggageService, TicketService ticketService) {
         this.luggageService = luggageService;
+        this.ticketService = ticketService;
     }
-
-    public record LuggageRequest(String ticketId) {}
-    public record StatusRequest(Luggage.Status status) {}
 
     @GetMapping
-    public List<Luggage> getAll() {
-        return luggageService.getAllLuggage();
+    public String index(Model model) {
+        model.addAttribute("luggageList", luggageService.getAllLuggage());
+        return "luggage/index";
     }
 
-    @GetMapping("/{id}")
-    public Luggage getById(@PathVariable("id") String id) {
-        return luggageService.getLuggageById(id);
+    @GetMapping("/new")
+    public String form(Model model) {
+        model.addAttribute("tickets", ticketService.getAllTickets());
+        return "luggage/form";
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Luggage register(@RequestBody LuggageRequest request) {
-        return luggageService.registerLuggage(request.ticketId());
+    public String create(@RequestParam("ticketId") String ticketId) {
+        luggageService.registerLuggage(ticketId);
+        return "redirect:/luggage";
     }
 
-    @PutMapping("/{id}/status")
-    public Luggage updateStatus(@PathVariable("id") String id, @RequestBody StatusRequest request) {
-        return luggageService.updateStatus(id, request.status());
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable("id") String id) {
+        luggageService.deleteLuggage(id);
+        return "redirect:/luggage";
     }
 }

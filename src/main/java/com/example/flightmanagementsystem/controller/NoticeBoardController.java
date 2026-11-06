@@ -1,13 +1,18 @@
 package com.example.flightmanagementsystem.controller;
 
-import com.example.flightmanagementsystem.model.NoticeBoard;
 import com.example.flightmanagementsystem.service.NoticeBoardService;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-import java.time.LocalDate;
-import java.util.List;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@RestController
+import java.time.LocalDate;
+
+@Controller
 @RequestMapping("/notice-boards")
 public class NoticeBoardController {
     private final NoticeBoardService noticeBoardService;
@@ -16,27 +21,27 @@ public class NoticeBoardController {
         this.noticeBoardService = noticeBoardService;
     }
 
-    public record NoticeBoardRequest(LocalDate date) {}
-
     @GetMapping
-    public List<NoticeBoard> getAll() {
-        return noticeBoardService.getAllNoticeBoards();
+    public String index(Model model) {
+        model.addAttribute("noticeBoards", noticeBoardService.getAllNoticeBoards());
+        return "noticeboard/index";
     }
 
-    @GetMapping("/{id}")
-    public NoticeBoard getById(@PathVariable("id") String id) {
-        return noticeBoardService.getNoticeBoardById(id);
+    @GetMapping("/new")
+    public String form() {
+        return "noticeboard/form";
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public NoticeBoard create(@RequestBody NoticeBoardRequest request) {
-        return noticeBoardService.createNoticeBoard(request.date());
+    public String create(@RequestParam("date")
+                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        noticeBoardService.createNoticeBoard(date);
+        return "redirect:/notice-boards";
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") String id) {
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable("id") String id) {
         noticeBoardService.deleteNoticeBoard(id);
+        return "redirect:/notice-boards";
     }
 }
