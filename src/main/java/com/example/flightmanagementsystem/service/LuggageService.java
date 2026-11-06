@@ -38,6 +38,13 @@ public class LuggageService {
         return luggageRepository.save(luggage);
     }
 
+    public void deleteLuggage(String id) {
+        Luggage luggage = getLuggageById(id);
+        ticketRepository.findById(luggage.getTicketId())
+            .ifPresent(ticket -> ticket.removeLuggage(luggage));
+        luggageRepository.deleteById(id);
+    }
+
     public List<Luggage> getAllLuggage() {
         return luggageRepository.findAll();
     }
