@@ -1,55 +1,98 @@
-# Flight Management System (Projektaufgabe 1)
+# Flight Management System (Projektaufgabe 1 & 2)
 
 ## General Information
 
 * **Topic:** Theme 2 - Flight Management System (Spring Boot, In-Memory)
-
 * **Course:** Advanced Programming Methods (MAP / Labor)
-
 * **Team Members:** Hunor-Tas Domokos, Vilmos Orbán
+
+---
 
 ## Architecture & Layered Organization
 
-This project follows a strict **Layered Architecture** and adheres to clean code conventions and **SOLID** principles:
+The application strictly follows the **Layered Architecture** and **MVC (Model-View-Controller)** pattern, respecting clean code principles and **SOLID** guidelines:
+
+```text
+[ Client / Browser ]
+         │  HTTP (GET, POST)
+         ▼
+  1. Controller Layer       (@Controller)
+         │  Delegates requests
+         ▼
+  2. Service Layer          (@Service)
+         │  Enforces business rules
+         ▼
+  3. Repository Layer       (Generic CrudRepository<T, ID>)
+         │  In-Memory Storage (ConcurrentHashMap)
+         ▼
+  4. Model Layer            (Entities & OOP Hierarchy)
+```
 
 1. **`model` Layer:**
+   * Core entities based on the domain model: `Flight`, `Airplane`, `Passenger`, `Ticket`, `Luggage`, `NoticeBoard`, and `FlightAssignment`.
+   * Class hierarchy for employees: Abstract `Staff` base class extended by `AirlineEmployee` and `AirportEmployee` (Liskov Substitution Principle).
+   * Safe typing with enums: `Luggage.Status` (`CHECKED_IN`, `LOADED`, `DELIVERED`) prevents typographical errors and controls state transitions.
+   * Modern Java Date/Time API (`LocalDate`, `LocalDateTime`).
 
-    * Contains the core entities based on the UML diagram (`Flight`, `Airplane`, `Passenger`, `Ticket`, `Luggage`, `NoticeBoard`, `FlightAssignment`, and the `Staff` hierarchy including `AirlineEmployee` and `AirportEmployee`).
+2. **`repository` Layer (Refactored In-Memory Storage):**
+   * **Generic InMemory Implementation:** Eliminated CRUD code duplication across repositories by introducing a generic `InMemoryRepository<T, ID>` implementing `CrudRepository<T, ID>`.
+   * Thread-safe in-memory data store powered by `ConcurrentHashMap` and ID-extractor functions.
+   * Centralized bean registration in `RepositoryConfig`.
 
-    * Implements OOP principles: private attributes, constructors, getters, and setters.
+3. **`service` Layer (Business Logic):**
+   * Centralizes all domain business logic, validation, and consistency checks.
+   * Relies on dependency injection via `CrudRepository` abstractions.
+   * **Referential Integrity on Deletion:** `StaffService.deleteStaff()` cross-checks the `FlightAssignmentRepository` before removing any staff member (both airline and airport personnel) to prevent orphaned assignments.
 
-    * Date and time attributes use modern Java API (`LocalDate`, `LocalTime`) instead of raw strings.
+4. **`controller` Layer & Thymeleaf Web Views (Project 2):**
+   * Spring MVC web controllers (`@Controller`) exposing standard CRUD endpoints.
+   * Clean separation between web actions and business logic.
 
-2. **`repository` Layer (In-Memory):**
+---
 
-    * Implements a generic `CrudRepository<T, ID>` interface to avoid code duplication (**DRY principle**).
+## Web Interface (Projektaufgabe 2)
 
-    * Uses Java Collections (`HashMap`) for runtime in-memory storage (`save`, `findById`, `findAll`, `deleteById`). No database or JPA is used in this phase.
+The presentation layer is implemented with **Thymeleaf** templates located under `src/main/resources/templates/`.
 
-3. **`service` Layer:**
+### Implemented Entities & Operations
+For each of the 8 main entities, full Create, Read, and Delete (CRUD) operations are supported:
+* **Airplanes:** `/airplanes`
+* **Flights:** `/flights`
+* **Passengers:** `/passengers`
+* **Tickets:** `/tickets`
+* **Luggage:** `/luggage`
+* **Staff:** `/staff`
+* **Notice Boards:** `/notice-boards`
+* **Flight Assignments:** `/flight-assignments`
 
-    * Handles the business logic for each entity, ensuring the **Single Responsibility Principle (SRP)**.
+### URL Mapping Pattern
+Each entity follows standard conventions:
+* `GET /<entity>` — Renders the list table (`index.html`) with individual delete buttons.
+* `GET /<entity>/new` — Renders the creation form (`form.html`).
+* `POST /<entity>` — Submits the form data and persists the entity.
+* `POST /<entity>/{id}/delete` — Triggers safe deletion via `POST` requests.
 
-    * Interfaces and implementations are cleanly separated, relying on dependency injection.
+### Layout & Navigation
+A shared layout fragment (`templates/fragments/layout.html`) standardizes page headers, styling, and navigation across all views.
 
-4. **`controller` Layer:**
+---
 
-    * Exposes REST/Web endpoints using `@Controller` to handle user requests and connect the application logic.
+## Improvements & Addressed P1 Feedback
 
-## Design Choices & Implementation Details
+1. **CRUD Duplication Resolved:** Eight redundant repository classes were replaced by a single generic `InMemoryRepository<T, ID>`.
+2. **Staff Deletion Safety:** Staff members cannot be deleted if active flight assignments exist in `FlightAssignmentRepository`.
+3. **Typing Luggage Status:** Replaced raw string status fields with an explicit `Luggage.Status` enum and transition validator.
+4. **Interface Cleanup:** Streamlined service classes to maintain direct clarity without redundant interface boilerplate.
 
-* **In-Memory Storage:** To prepare for future phases, all repositories simulate database operations using thread-safe or standard Java maps (`Map<String, T>`).
-
-* **Polymorphism & Inheritance:** The `Staff` abstract class handles common attributes (`id`, `name`), while specialized employee roles (`AirlineEmployee`, `AirportEmployee`) extend it, satisfying the Liskov Substitution Principle.
-
-* **Error Handling:** A `GlobalExceptionHandler` ensures consistent error responses across controllers.
+---
 
 ## Running the Application
 
-1. Ensure you have **JDK 17** or newer installed.
-
-2. Clone the repository and open it in **IntelliJ IDEA (Community or Ultimate)**.
-
-3. Run the `FlightManagementSystemApplication.java` main class.
-
-4. Access test endpoints (e.g., `/hello`) to verify that the application is running correctly.
+1. Requires **JDK 17** (or newer).
+2. Clone the repository and open it in **IntelliJ IDEA**.
+3. Run `FlightManagementSystemApplication.java`.
+4. Open your browser and navigate to:
+   ```text
+   http://localhost:8080/airplanes
+   ```
+   Use the top navigation bar to explore and test all entities.
