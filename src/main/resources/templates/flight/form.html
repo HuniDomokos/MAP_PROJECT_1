@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('New Flight')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main>
+    <h2>New Flight</h2>
+    <form th:action="@{/flights}" method="post">
+        <label>Flight Name:
+            <input type="text" name="name" placeholder="e.g. WizzAir Cluj-London" required>
+        </label>
+        <label>Departure Time:
+            <input type="datetime-local" name="departureTime" required>
+        </label>
+        <label>Airplane:
+            <select name="airplaneId" required>
+                <option value="" disabled selected>Select an airplane</option>
+                <option th:each="a : ${airplanes}" th:value="${a.id}" th:text="'Plane #' + ${a.number} + ' (Cap: ' + ${a.capacity} + ')'"></option>
+            </select>
+        </label>
+        <label>Notice Board:
+            <select name="noticeBoardId" required>
+                <option value="" disabled selected>Select a notice board</option>
+                <option th:each="nb : ${noticeBoards}" th:value="${nb.id}" th:text="'Board: ' + ${nb.date} + ' (' + ${nb.id} + ')'"></option>
+            </select>
+        </label>
+        <button type="submit">Save</button>
+    </form>
+</main>
+</body>
+</html>

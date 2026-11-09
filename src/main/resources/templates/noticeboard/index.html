@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Notice Boards')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main>
+    <h2>Notice Boards</h2>
+    <p><a class="button" th:href="@{/notice-boards/new}">Add Notice Board</a></p>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="nb : ${noticeBoards}">
+            <td th:text="${nb.id}">ID</td>
+            <td th:text="${nb.date}">Date</td>
+            <td>
+                <form th:action="@{'/notice-boards/' + ${nb.id} + '/delete'}" method="post">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

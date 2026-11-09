@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('New Notice Board')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main>
+  <h2>New Notice Board</h2>
+  <form th:action="@{/notice-boards}" method="post">
+    <label>Date:
+      <input type="date" name="date" required>
+    </label>
+    <button type="submit">Save</button>
+  </form>
+</main>
+</body>
+</html>

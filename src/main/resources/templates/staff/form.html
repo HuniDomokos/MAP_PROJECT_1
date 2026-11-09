@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('New Staff Member')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main>
+  <h2>New Staff Member</h2>
+  <form th:action="@{/staff}" method="post">
+    <label>Employee Type:
+      <select name="type" required>
+        <option value="airline">Airline Employee</option>
+        <option value="airport">Airport Employee</option>
+      </select>
+    </label>
+    <label>Name:
+      <input type="text" name="name" required>
+    </label>
+    <label>Role (for Airline Employee):
+      <input type="text" name="role" placeholder="e.g. Pilot, Flight Attendant">
+    </label>
+    <label>Department (for Airport Employee):
+      <input type="text" name="department" placeholder="e.g. Ground Operations">
+    </label>
+    <label>Designation (for Airport Employee):
+      <input type="text" name="designation" placeholder="e.g. Security Officer">
+    </label>
+    <button type="submit">Save</button>
+  </form>
+</main>
+</body>
+</html>
