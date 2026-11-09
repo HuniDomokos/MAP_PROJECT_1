@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Notice Boards')}"></head>
+<head th:replace="~{fragments/layout :: head('Notice boards')}"></head>
 <body>
 <nav th:replace="~{fragments/layout :: nav}"></nav>
 <main>
-    <h2>Notice Boards</h2>
-    <p><a class="button" th:href="@{/notice-boards/new}">Add Notice Board</a></p>
+    <h1>Notice boards</h1>
+    <p><a class="button" th:href="@{/notice-boards/new}">New notice board</a></p>
     <table>
         <thead>
-        <tr>
-            <th>ID</th>
-            <th>Date</th>
-            <th>Action</th>
-        </tr>
+        <tr><th>ID</th><th>Date</th><th>Flights of the day</th><th></th></tr>
         </thead>
         <tbody>
-        <tr th:each="nb : ${noticeBoards}">
-            <td th:text="${nb.id}">ID</td>
-            <td th:text="${nb.date}">Date</td>
+        <tr th:each="item : ${noticeBoards}">
+            <td th:text="${item.id}">ID</td>
+            <td th:text="${item.date}">Date</td>
+            <td th:text="${item.flightsOfTheDay.size()}">Flights of the day</td>
             <td>
-                <form th:action="@{'/notice-boards/' + ${nb.id} + '/delete'}" method="post">
+                <form th:action="@{'/notice-boards/' + ${item.id} + '/delete'}" method="post">
                     <button type="submit">Delete</button>
                 </form>
             </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(noticeBoards)}">
+            <td colspan="4">Nothing here yet.</td>
         </tr>
         </tbody>
     </table>

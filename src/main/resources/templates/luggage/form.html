@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('New Luggage')}"></head>
+<head th:replace="~{fragments/layout :: head('New luggage')}"></head>
 <body>
 <nav th:replace="~{fragments/layout :: nav}"></nav>
 <main>
-  <h2>New Luggage</h2>
-  <form th:action="@{/luggage}" method="post">
-    <label>Ticket:
-      <select name="ticketId" required>
-        <option value="" disabled selected>Select associated ticket</option>
-        <option th:each="t : ${tickets}" th:value="${t.id}" th:text="'Ticket: ' + ${t.id} + ' (Seat: ' + ${t.seatNumber} + ')'"></option>
-      </select>
-    </label>
-    <button type="submit">Save</button>
-  </form>
+    <h1>New luggage</h1>
+    <form th:action="@{/luggage}" method="post">
+        <label>Ticket
+            <select name="ticketId" required>
+                <option th:each="o : ${tickets}" th:value="${o.id}" th:text="${'Seat ' + o.seatNumber + ' (ticket ' + #strings.substring(o.id, 0, 8) + ')'}">option</option>
+            </select>
+        </label>
+        <button type="submit">Create</button>
+        <a th:href="@{/luggage}">Cancel</a>
+    </form>
 </main>
 </body>
 </html>

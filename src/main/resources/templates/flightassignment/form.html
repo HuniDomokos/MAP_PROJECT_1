@@ -1,25 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('New Flight Assignment')}"></head>
+<head th:replace="~{fragments/layout :: head('New flight assignment')}"></head>
 <body>
 <nav th:replace="~{fragments/layout :: nav}"></nav>
 <main>
-  <h2>New Flight Assignment</h2>
-  <form th:action="@{/flight-assignments}" method="post">
-    <label>Flight:
-      <select name="flightId" required>
-        <option value="" disabled selected>Select flight</option>
-        <option th:each="f : ${flights}" th:value="${f.id}" th:text="${f.name} + ' (' + ${f.id} + ')'"></option>
-      </select>
-    </label>
-    <label>Staff Member:
-      <select name="staffId" required>
-        <option value="" disabled selected>Select staff member</option>
-        <option th:each="s : ${staffMembers}" th:value="${s.id}" th:text="${s.name} + ' (' + ${s.id} + ')'"></option>
-      </select>
-    </label>
-    <button type="submit">Save</button>
-  </form>
+    <h1>New flight assignment</h1>
+    <form th:action="@{/flight-assignments}" method="post">
+        <label>Flight
+            <select name="flightId" required>
+                <option th:each="o : ${flights}" th:value="${o.id}" th:text="${o.name + ' (' + o.departureTime + ')'}">option</option>
+            </select>
+        </label>
+        <label>Staff member
+            <select name="staffId" required>
+                <option th:each="o : ${staffMembers}" th:value="${o.id}" th:text="${o.name}">option</option>
+            </select>
+        </label>
+        <button type="submit">Create</button>
+        <a th:href="@{/flight-assignments}">Cancel</a>
+    </form>
 </main>
 </body>
 </html>

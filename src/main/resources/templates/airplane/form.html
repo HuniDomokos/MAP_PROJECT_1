@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('New Airplane')}"></head>
+<head th:replace="~{fragments/layout :: head('New airplane')}"></head>
 <body>
 <nav th:replace="~{fragments/layout :: nav}"></nav>
 <main>
-    <h2>New Airplane</h2>
+    <h1>New airplane</h1>
     <form th:action="@{/airplanes}" method="post">
-        <label>Airplane Number:
-            <input type="number" name="number" required>
+        <label>Number
+            <input type="number" name="number" required min="1">
         </label>
-        <label>Capacity:
-            <input type="number" name="capacity" required>
+        <label>Capacity
+            <input type="number" name="capacity" required min="1">
         </label>
-        <button type="submit">Save</button>
+        <button type="submit">Create</button>
+        <a th:href="@{/airplanes}">Cancel</a>
     </form>
 </main>
 </body>

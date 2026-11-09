@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('New Passenger')}"></head>
+<head th:replace="~{fragments/layout :: head('New passenger')}"></head>
 <body>
 <nav th:replace="~{fragments/layout :: nav}"></nav>
 <main>
-  <h2>New Passenger</h2>
-  <form th:action="@{/passengers}" method="post">
-    <label>Name:
-      <input type="text" name="name" required>
-    </label>
-    <label>Email:
-      <input type="email" name="email" required>
-    </label>
-    <label>Currency:
-      <input type="text" name="currency" value="EUR" required>
-    </label>
-    <button type="submit">Save</button>
-  </form>
+    <h1>New passenger</h1>
+    <form th:action="@{/passengers}" method="post">
+        <label>Name
+            <input type="text" name="name" required>
+        </label>
+        <label>Currency
+            <input type="text" name="currency" required>
+        </label>
+        <label>Email
+            <input type="email" name="email" required>
+        </label>
+        <button type="submit">Create</button>
+        <a th:href="@{/passengers}">Cancel</a>
+    </form>
 </main>
 </body>
 </html>

@@ -1,30 +1,29 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('New Flight')}"></head>
+<head th:replace="~{fragments/layout :: head('New flight')}"></head>
 <body>
 <nav th:replace="~{fragments/layout :: nav}"></nav>
 <main>
-    <h2>New Flight</h2>
+    <h1>New flight</h1>
     <form th:action="@{/flights}" method="post">
-        <label>Flight Name:
-            <input type="text" name="name" placeholder="e.g. WizzAir Cluj-London" required>
+        <label>Name
+            <input type="text" name="name" required>
         </label>
-        <label>Departure Time:
+        <label>Airplane
+            <select name="airplaneId" required>
+                <option th:each="o : ${airplanes}" th:value="${o.id}" th:text="${'No. ' + o.number + ' (capacity ' + o.capacity + ')'}">option</option>
+            </select>
+        </label>
+        <label>Notice board
+            <select name="noticeBoardId" required>
+                <option th:each="o : ${noticeBoards}" th:value="${o.id}" th:text="${o.date}">option</option>
+            </select>
+        </label>
+        <label>Departure time
             <input type="datetime-local" name="departureTime" required>
         </label>
-        <label>Airplane:
-            <select name="airplaneId" required>
-                <option value="" disabled selected>Select an airplane</option>
-                <option th:each="a : ${airplanes}" th:value="${a.id}" th:text="'Plane #' + ${a.number} + ' (Cap: ' + ${a.capacity} + ')'"></option>
-            </select>
-        </label>
-        <label>Notice Board:
-            <select name="noticeBoardId" required>
-                <option value="" disabled selected>Select a notice board</option>
-                <option th:each="nb : ${noticeBoards}" th:value="${nb.id}" th:text="'Board: ' + ${nb.date} + ' (' + ${nb.id} + ')'"></option>
-            </select>
-        </label>
-        <button type="submit">Save</button>
+        <button type="submit">Create</button>
+        <a th:href="@{/flights}">Cancel</a>
     </form>
 </main>
 </body>

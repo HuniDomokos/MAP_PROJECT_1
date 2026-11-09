@@ -4,27 +4,26 @@
 <body>
 <nav th:replace="~{fragments/layout :: nav}"></nav>
 <main>
-    <h2>Airplanes</h2>
-    <p><a class="button" th:href="@{/airplanes/new}">Add Airplane</a></p>
+    <h1>Airplanes</h1>
+    <p><a class="button" th:href="@{/airplanes/new}">New airplane</a></p>
     <table>
         <thead>
-        <tr>
-            <th>ID</th>
-            <th>Number</th>
-            <th>Capacity</th>
-            <th>Action</th>
-        </tr>
+        <tr><th>ID</th><th>Number</th><th>Capacity</th><th>Flights</th><th></th></tr>
         </thead>
         <tbody>
-        <tr th:each="a : ${airplanes}">
-            <td th:text="${a.id}">ID</td>
-            <td th:text="${a.number}">Number</td>
-            <td th:text="${a.capacity}">Capacity</td>
+        <tr th:each="item : ${airplanes}">
+            <td th:text="${item.id}">ID</td>
+            <td th:text="${item.number}">Number</td>
+            <td th:text="${item.capacity}">Capacity</td>
+            <td th:text="${item.flights.size()}">Flights</td>
             <td>
-                <form th:action="@{'/airplanes/' + ${a.id} + '/delete'}" method="post">
+                <form th:action="@{'/airplanes/' + ${item.id} + '/delete'}" method="post">
                     <button type="submit">Delete</button>
                 </form>
             </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(airplanes)}">
+            <td colspan="5">Nothing here yet.</td>
         </tr>
         </tbody>
     </table>

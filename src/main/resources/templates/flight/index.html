@@ -4,31 +4,28 @@
 <body>
 <nav th:replace="~{fragments/layout :: nav}"></nav>
 <main>
-    <h2>Flights</h2>
-    <p><a class="button" th:href="@{/flights/new}">Add Flight</a></p>
+    <h1>Flights</h1>
+    <p><a class="button" th:href="@{/flights/new}">New flight</a></p>
     <table>
         <thead>
-        <tr>
-            <th>ID</th>
-            <th>Flight Name</th>
-            <th>Departure Time</th>
-            <th>Airplane ID</th>
-            <th>Notice Board ID</th>
-            <th>Action</th>
-        </tr>
+        <tr><th>ID</th><th>Name</th><th>Airplane ID</th><th>Notice board ID</th><th>Departure</th><th>Tickets</th><th></th></tr>
         </thead>
         <tbody>
-        <tr th:each="f : ${flights}">
-            <td th:text="${f.id}">ID</td>
-            <td th:text="${f.name}">Name</td>
-            <td th:text="${f.departureTime}">Time</td>
-            <td th:text="${f.airplaneId}">Airplane</td>
-            <td th:text="${f.noticeBoardId}">Notice Board</td>
+        <tr th:each="item : ${flights}">
+            <td th:text="${item.id}">ID</td>
+            <td th:text="${item.name}">Name</td>
+            <td th:text="${item.airplaneId}">Airplane ID</td>
+            <td th:text="${item.noticeBoardId}">Notice board ID</td>
+            <td th:text="${item.departureTime}">Departure</td>
+            <td th:text="${item.tickets.size()}">Tickets</td>
             <td>
-                <form th:action="@{'/flights/' + ${f.id} + '/delete'}" method="post">
+                <form th:action="@{'/flights/' + ${item.id} + '/delete'}" method="post">
                     <button type="submit">Delete</button>
                 </form>
             </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(flights)}">
+            <td colspan="7">Nothing here yet.</td>
         </tr>
         </tbody>
     </table>

@@ -4,58 +4,51 @@
 <body>
 <nav th:replace="~{fragments/layout :: nav}"></nav>
 <main>
-  <h2>Staff Members</h2>
-  <p><a class="button" th:href="@{/staff/new}">Add Staff Member</a></p>
-
-  <h3>Airline Employees</h3>
-  <table>
-    <thead>
-    <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Role</th>
-      <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="s : ${airlineEmployees}">
-      <td th:text="${s.id}">ID</td>
-      <td th:text="${s.name}">Name</td>
-      <td th:text="${s.role}">Role</td>
-      <td>
-        <form th:action="@{'/staff/' + ${s.id} + '/delete'}" method="post">
-          <button type="submit">Delete</button>
-        </form>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-
-  <h3 style="margin-top: 2rem;">Airport Employees</h3>
-  <table>
-    <thead>
-    <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Department</th>
-      <th>Designation</th>
-      <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="s : ${airportEmployees}">
-      <td th:text="${s.id}">ID</td>
-      <td th:text="${s.name}">Name</td>
-      <td th:text="${s.department}">Department</td>
-      <td th:text="${s.designation}">Designation</td>
-      <td>
-        <form th:action="@{'/staff/' + ${s.id} + '/delete'}" method="post">
-          <button type="submit">Delete</button>
-        </form>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+    <h1>Staff</h1>
+    <p><a class="button" th:href="@{/staff/new}">New staff member</a></p>
+    <h2>Airline employees</h2>
+    <table>
+        <thead>
+        <tr><th>ID</th><th>Name</th><th>Role</th><th></th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${airlineEmployees}">
+            <td th:text="${item.id}">ID</td>
+            <td th:text="${item.name}">Name</td>
+            <td th:text="${item.role}">Role</td>
+            <td>
+                <form th:action="@{'/staff/' + ${item.id} + '/delete'}" method="post">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(airlineEmployees)}">
+            <td colspan="4">Nothing here yet.</td>
+        </tr>
+        </tbody>
+    </table>
+    <h2>Airport employees</h2>
+    <table>
+        <thead>
+        <tr><th>ID</th><th>Name</th><th>Designation</th><th>Department</th><th></th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${airportEmployees}">
+            <td th:text="${item.id}">ID</td>
+            <td th:text="${item.name}">Name</td>
+            <td th:text="${item.designation}">Designation</td>
+            <td th:text="${item.department}">Department</td>
+            <td>
+                <form th:action="@{'/staff/' + ${item.id} + '/delete'}" method="post">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(airportEmployees)}">
+            <td colspan="5">Nothing here yet.</td>
+        </tr>
+        </tbody>
+    </table>
 </main>
 </body>
 </html>
