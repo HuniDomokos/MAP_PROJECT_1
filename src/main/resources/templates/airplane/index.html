@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Airplanes')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main>
+    <h2>Airplanes</h2>
+    <p><a class="button" th:href="@{/airplanes/new}">Add Airplane</a></p>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Number</th>
+            <th>Capacity</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="a : ${airplanes}">
+            <td th:text="${a.id}">ID</td>
+            <td th:text="${a.number}">Number</td>
+            <td th:text="${a.capacity}">Capacity</td>
+            <td>
+                <form th:action="@{'/airplanes/' + ${a.id} + '/delete'}" method="post">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

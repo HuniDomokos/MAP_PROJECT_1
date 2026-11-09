@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Staff')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main>
+  <h2>Staff Members</h2>
+  <p><a class="button" th:href="@{/staff/new}">Add Staff Member</a></p>
+
+  <h3>Airline Employees</h3>
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Role</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="s : ${airlineEmployees}">
+      <td th:text="${s.id}">ID</td>
+      <td th:text="${s.name}">Name</td>
+      <td th:text="${s.role}">Role</td>
+      <td>
+        <form th:action="@{'/staff/' + ${s.id} + '/delete'}" method="post">
+          <button type="submit">Delete</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-top: 2rem;">Airport Employees</h3>
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Department</th>
+      <th>Designation</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="s : ${airportEmployees}">
+      <td th:text="${s.id}">ID</td>
+      <td th:text="${s.name}">Name</td>
+      <td th:text="${s.department}">Department</td>
+      <td th:text="${s.designation}">Designation</td>
+      <td>
+        <form th:action="@{'/staff/' + ${s.id} + '/delete'}" method="post">
+          <button type="submit">Delete</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</main>
+</body>
+</html>
