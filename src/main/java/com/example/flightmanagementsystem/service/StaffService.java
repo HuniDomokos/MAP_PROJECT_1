@@ -9,9 +9,12 @@ import java.time.*;
 @Service
 public class StaffService {
     private final CrudRepository<Staff, String> staffRepository;
+    private final CrudRepository<FlightAssignment, String> flightAssignmentRepository;
 
-    public StaffService(CrudRepository<Staff, String> staffRepository) {
+    public StaffService(CrudRepository<Staff, String> staffRepository,
+                        CrudRepository<FlightAssignment, String> flightAssignmentRepository) {
         this.staffRepository = staffRepository;
+        this.flightAssignmentRepository = flightAssignmentRepository;
     }
 
     public AirlineEmployee createAirlineEmployee(String name, String role) {
@@ -40,7 +43,9 @@ public class StaffService {
 
     public void deleteStaff(String id) {
         Staff staff = getStaffById(id);
-        if (staff instanceof AirlineEmployee employee && !employee.getAssignments().isEmpty()) {
+        boolean assigned = flightAssignmentRepository.findAll().stream()
+                .anyMatch(a -> a.getStaffId().equals(id));
+        if (assigned) {
             throw new IllegalStateException("Staff still has flight assignments");
         }
         staffRepository.deleteById(id);
