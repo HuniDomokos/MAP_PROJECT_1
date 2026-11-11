@@ -64,6 +64,7 @@ public class Ticket {
         this.seatNumber = seatNumber;
     }
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public List<Luggage> getLuggages() {
         return Collections.unmodifiableList(luggages);
     }

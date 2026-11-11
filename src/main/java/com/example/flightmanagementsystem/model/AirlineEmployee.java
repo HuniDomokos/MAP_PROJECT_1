@@ -25,6 +25,7 @@ public class AirlineEmployee extends Staff {
         this.role = role;
     }
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public List<FlightAssignment> getAssignments() {
         return Collections.unmodifiableList(assignments);
     }

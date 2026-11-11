@@ -35,6 +35,7 @@ public class NoticeBoard {
         this.date = date;
     }
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public List<Flight> getFlightsOfTheDay() {
         return Collections.unmodifiableList(flightsOfTheDay);
     }

@@ -54,6 +54,7 @@ public class Passenger {
         this.email = email;
     }
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public List<Ticket> getTickets() {
         return Collections.unmodifiableList(tickets);
     }

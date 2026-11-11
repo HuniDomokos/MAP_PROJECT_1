@@ -67,6 +67,7 @@ public class Flight {
         this.departureTime = departureTime;
     }
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public List<Ticket> getTickets() {
         return Collections.unmodifiableList(tickets);
     }
@@ -79,6 +80,7 @@ public class Flight {
         tickets.remove(ticket);
     }
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public List<FlightAssignment> getFlightAssignments() {
         return Collections.unmodifiableList(flightAssignments);
     }

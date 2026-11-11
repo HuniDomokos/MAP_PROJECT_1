@@ -43,6 +43,7 @@ public class Airplane {
         this.capacity = capacity;
     }
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public List<Flight> getFlights() {
         return Collections.unmodifiableList(flights);
     }
