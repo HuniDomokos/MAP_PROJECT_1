@@ -10,6 +10,10 @@ public class NoticeBoard {
     private LocalDate date;
     private final List<Flight> flightsOfTheDay = new ArrayList<>();
 
+    public NoticeBoard() {
+
+    }
+
     public NoticeBoard(String id, LocalDate date) {
         this.id = id;
         this.date = date;

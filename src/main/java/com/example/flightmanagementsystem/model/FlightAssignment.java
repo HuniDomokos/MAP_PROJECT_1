@@ -5,6 +5,10 @@ public class FlightAssignment {
     private String flightId;
     private String staffId;
 
+    public FlightAssignment() {
+
+    }
+
     public FlightAssignment(String id, String flightId, String staffId) {
         this.id = id;
         this.flightId = flightId;

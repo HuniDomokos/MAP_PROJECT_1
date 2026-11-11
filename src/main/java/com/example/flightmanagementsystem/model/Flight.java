@@ -14,6 +14,10 @@ public class Flight {
     private final List<Ticket> tickets = new ArrayList<>();
     private final List<FlightAssignment> flightAssignments = new ArrayList<>();
 
+    public Flight() {
+
+    }
+
     public Flight(String id, String name, String noticeBoardId, String airplaneId,
                   LocalDateTime departureTime) {
         this.id = id;

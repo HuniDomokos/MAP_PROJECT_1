@@ -10,6 +10,9 @@ public class Airplane {
     private int capacity;
     private final List<Flight> flights = new ArrayList<>();
 
+    public Airplane() {
+    }
+
     public Airplane(String id, int number, int capacity) {
         this.id = id;
         this.number = number;
@@ -51,4 +54,5 @@ public class Airplane {
     public void removeFlight(Flight flight) {
         flights.remove(flight);
     }
+
 }

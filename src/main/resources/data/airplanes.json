@@ -1,0 +1,12 @@
+[
+  {"id": "AP1", "number": 101, "capacity": 180},
+  {"id": "AP2", "number": 102, "capacity": 220},
+  {"id": "AP3", "number": 103, "capacity": 150},
+  {"id": "AP4", "number": 104, "capacity": 189},
+  {"id": "AP5", "number": 105, "capacity": 300},
+  {"id": "AP6", "number": 106, "capacity": 180},
+  {"id": "AP7", "number": 107, "capacity": 140},
+  {"id": "AP8", "number": 108, "capacity": 230},
+  {"id": "AP9", "number": 109, "capacity": 190},
+  {"id": "AP10", "number": 110, "capacity": 200}
+]

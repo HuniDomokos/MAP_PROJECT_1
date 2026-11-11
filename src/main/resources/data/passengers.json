@@ -1,0 +1,12 @@
+[
+  {"id": "P1", "name": "Anna Schmidt", "email": "anna@example.com", "currency": "EUR"},
+  {"id": "P2", "name": "Lukas Weber", "email": "lukas@example.com", "currency": "EUR"},
+  {"id": "P3", "name": "Vilmos Orban", "email": "vilmos@example.com", "currency": "RON"},
+  {"id": "P4", "name": "Hunor Domokos", "email": "hunor@example.com", "currency": "RON"},
+  {"id": "P5", "name": "Elena Popescu", "email": "elena@example.com", "currency": "EUR"},
+  {"id": "P6", "name": "Maximilian Becker", "email": "max@example.com", "currency": "EUR"},
+  {"id": "P7", "name": "Julia Klein", "email": "julia@example.com", "currency": "USD"},
+  {"id": "P8", "name": "Mate Kovacs", "email": "mate@example.com", "currency": "HUF"},
+  {"id": "P9", "name": "Sophie Fischer", "email": "sophie@example.com", "currency": "EUR"},
+  {"id": "P10", "name": "David Nagy", "email": "david@example.com", "currency": "RON"}
+]

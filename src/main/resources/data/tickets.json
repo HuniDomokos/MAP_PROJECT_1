@@ -1,0 +1,12 @@
+[
+  {"id": "TK1", "passengerId": "P1", "flightId": "FL1", "seatNumber": "12A", "price": 149.99},
+  {"id": "TK2", "passengerId": "P2", "flightId": "FL1", "seatNumber": "12B", "price": 149.99},
+  {"id": "TK3", "passengerId": "P3", "flightId": "FL2", "seatNumber": "04C", "price": 89.50},
+  {"id": "TK4", "passengerId": "P4", "flightId": "FL2", "seatNumber": "04D", "price": 89.50},
+  {"id": "TK5", "passengerId": "P5", "flightId": "FL3", "seatNumber": "21F", "price": 65.00},
+  {"id": "TK6", "passengerId": "P6", "flightId": "FL4", "seatNumber": "01A", "price": 199.00},
+  {"id": "TK7", "passengerId": "P7", "flightId": "FL5", "seatNumber": "15C", "price": 120.00},
+  {"id": "TK8", "passengerId": "P8", "flightId": "FL6", "seatNumber": "08B", "price": 175.50},
+  {"id": "TK9", "passengerId": "P9", "flightId": "FL7", "seatNumber": "10A", "price": 110.00},
+  {"id": "TK10", "passengerId": "P10", "flightId": "FL8", "seatNumber": "18D", "price": 135.20}
+]

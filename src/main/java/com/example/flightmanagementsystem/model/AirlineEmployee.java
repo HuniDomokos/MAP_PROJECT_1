@@ -8,6 +8,10 @@ public class AirlineEmployee extends Staff {
     private String role;
     private final List<FlightAssignment> assignments = new ArrayList<>();
 
+    public AirlineEmployee() {
+
+    }
+
     public AirlineEmployee(String id, String name, String role) {
         super(id, name);
         this.role = role;

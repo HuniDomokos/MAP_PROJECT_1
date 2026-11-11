@@ -18,6 +18,10 @@ public class Luggage {
     private String ticketId;
     private Status status;
 
+    public Luggage() {
+
+    }
+
     public Luggage(String id, String ticketId, Status status) {
         this.id = id;
         this.ticketId = ticketId;

@@ -12,6 +12,10 @@ public class Ticket {
     private String seatNumber;
     private final List<Luggage> luggages = new ArrayList<>();
 
+    public Ticket() {
+
+    }
+
     public Ticket(String id, String passengerId, String flightId, double price, String seatNumber) {
         this.id = id;
         this.passengerId = passengerId;

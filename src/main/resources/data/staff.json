@@ -1,0 +1,12 @@
+[
+  {"@type": "airline", "id": "ST1", "name": "Thomas Müller", "role": "Captain"},
+  {"@type": "airline", "id": "ST2", "name": "Laura Wagner", "role": "First Officer"},
+  {"@type": "airline", "id": "ST3", "name": "Felix Hoffmann", "role": "Flight Attendant"},
+  {"@type": "airline", "id": "ST4", "name": "Sarah Bauer", "role": "Flight Attendant"},
+  {"@type": "airline", "id": "ST5", "name": "Jonas Richter", "role": "Purser"},
+  {"@type": "airport", "id": "ST6", "name": "Stefan Wolf", "designation": "Security Officer", "department": "Security"},
+  {"@type": "airport", "id": "ST7", "name": "Maria Schneider", "designation": "Gate Agent", "department": "Ground Operations"},
+  {"@type": "airport", "id": "ST8", "name": "Christian Meyer", "designation": "Baggage Handler", "department": "Logistics"},
+  {"@type": "airport", "id": "ST9", "name": "Monika Becker", "designation": "Marshaller", "department": "Ramp Services"},
+  {"@type": "airport", "id": "ST10", "name": "Andreas Koch", "designation": "Dispatcher", "department": "Operations"}
+]

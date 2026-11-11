@@ -1,0 +1,12 @@
+[
+  {"id": "FL1", "name": "LH1670", "noticeBoardId": "NB1", "airplaneId": "AP1", "departureTime": "2026-11-12T08:30:00"},
+  {"id": "FL2", "name": "RO341", "noticeBoardId": "NB1", "airplaneId": "AP2", "departureTime": "2026-11-12T10:15:00"},
+  {"id": "FL3", "name": "W63301", "noticeBoardId": "NB2", "airplaneId": "AP3", "departureTime": "2026-11-13T06:00:00"},
+  {"id": "FL4", "name": "FR4022", "noticeBoardId": "NB2", "airplaneId": "AP4", "departureTime": "2026-11-13T14:45:00"},
+  {"id": "FL5", "name": "OS790", "noticeBoardId": "NB3", "airplaneId": "AP5", "departureTime": "2026-11-14T09:20:00"},
+  {"id": "FL6", "name": "KL1390", "noticeBoardId": "NB3", "airplaneId": "AP6", "departureTime": "2026-11-14T17:10:00"},
+  {"id": "FL7", "name": "AF1089", "noticeBoardId": "NB4", "airplaneId": "AP7", "departureTime": "2026-11-15T11:00:00"},
+  {"id": "FL8", "name": "TK1044", "noticeBoardId": "NB4", "airplaneId": "AP8", "departureTime": "2026-11-15T21:30:00"},
+  {"id": "FL9", "name": "LX1884", "noticeBoardId": "NB5", "airplaneId": "AP9", "departureTime": "2026-11-16T13:25:00"},
+  {"id": "FL10", "name": "BA887", "noticeBoardId": "NB5", "airplaneId": "AP10", "departureTime": "2026-11-16T18:40:00"}
+]

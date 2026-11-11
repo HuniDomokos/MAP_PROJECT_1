@@ -1,0 +1,12 @@
+[
+  {"id": "LG1", "ticketId": "TK1", "status": "CHECKED_IN"},
+  {"id": "LG2", "ticketId": "TK2", "status": "LOADED"},
+  {"id": "LG3", "ticketId": "TK3", "status": "DELIVERED"},
+  {"id": "LG4", "ticketId": "TK4", "status": "CHECKED_IN"},
+  {"id": "LG5", "ticketId": "TK5", "status": "LOADED"},
+  {"id": "LG6", "ticketId": "TK6", "status": "DELIVERED"},
+  {"id": "LG7", "ticketId": "TK7", "status": "CHECKED_IN"},
+  {"id": "LG8", "ticketId": "TK8", "status": "LOADED"},
+  {"id": "LG9", "ticketId": "TK9", "status": "CHECKED_IN"},
+  {"id": "LG10", "ticketId": "TK10", "status": "CHECKED_IN"}
+]

@@ -9,41 +9,41 @@ public class RepositoryConfig {
 
     @Bean
     public CrudRepository<Airplane, String> airplaneRepository() {
-        return new InMemoryRepository<>(Airplane::getId);
+        return new AirplaneRepository();
     }
 
     @Bean
     public CrudRepository<Passenger, String> passengerRepository() {
-        return new InMemoryRepository<>(Passenger::getId);
+        return new PassengerRepository();
     }
 
     @Bean
     public CrudRepository<NoticeBoard, String> noticeBoardRepository() {
-        return new InMemoryRepository<>(NoticeBoard::getId);
+        return new NoticeBoardRepository();
     }
 
     @Bean
     public CrudRepository<Flight, String> flightRepository() {
-        return new InMemoryRepository<>(Flight::getId);
+        return new FlightRepository();
     }
 
     @Bean
     public CrudRepository<Ticket, String> ticketRepository() {
-        return new InMemoryRepository<>(Ticket::getId);
+        return new TicketRepository();
     }
 
     @Bean
     public CrudRepository<Luggage, String> luggageRepository() {
-        return new InMemoryRepository<>(Luggage::getId);
+        return new LuggageRepository();
     }
 
     @Bean
     public CrudRepository<Staff, String> staffRepository() {
-        return new InMemoryRepository<>(Staff::getId);
+        return new StaffRepository();
     }
 
     @Bean
     public CrudRepository<FlightAssignment, String> flightAssignmentRepository() {
-        return new InMemoryRepository<>(FlightAssignment::getId);
+        return new FlightAssignmentRepository();
     }
 }
