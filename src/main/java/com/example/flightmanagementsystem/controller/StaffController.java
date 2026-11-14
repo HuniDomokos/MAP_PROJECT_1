@@ -61,4 +61,27 @@ public class StaffController {
         staffService.deleteStaff(id);
         return "redirect:/staff";
     }
+
+    @GetMapping("/{id}/edit")
+    public String editForm(@PathVariable("id") String id, Model model) {
+        Staff staff = staffService.getStaffById(id);
+        model.addAttribute("staff", staff);
+        model.addAttribute("type", staff instanceof AirlineEmployee ? "AIRLINE" : "AIRPORT");
+        return "staff/edit";
+    }
+
+    @PostMapping("/{id}")
+    public String update(@PathVariable("id") String id,
+                         @RequestParam("name") String name,
+                         @RequestParam(value = "role", required = false) String role,
+                         @RequestParam(value = "designation", required = false) String designation,
+                         @RequestParam(value = "department", required = false) String department) {
+        // the type of a staff member cannot change, so the existing object decides
+        if (staffService.getStaffById(id) instanceof AirlineEmployee) {
+            staffService.updateAirlineEmployee(id, name, role);
+        } else {
+            staffService.updateAirportEmployee(id, name, designation, department);
+        }
+        return "redirect:/staff";
+    }
 }

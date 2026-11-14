@@ -44,4 +44,18 @@ public class NoticeBoardController {
         noticeBoardService.deleteNoticeBoard(id);
         return "redirect:/notice-boards";
     }
+
+    @GetMapping("/{id}/edit")
+    public String editForm(@PathVariable("id") String id, Model model) {
+        model.addAttribute("noticeBoard", noticeBoardService.getNoticeBoardById(id));
+        return "noticeboard/edit";
+    }
+
+    @PostMapping("/{id}")
+    public String update(@PathVariable("id") String id,
+                         @RequestParam("date")
+                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        noticeBoardService.updateNoticeBoard(id, date);
+        return "redirect:/notice-boards";
+    }
 }

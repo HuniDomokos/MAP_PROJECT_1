@@ -57,4 +57,23 @@ public class FlightController {
         flightService.deleteFlight(id);
         return "redirect:/flights";
     }
+
+    @GetMapping("/{id}/edit")
+    public String editForm(@PathVariable("id") String id, Model model) {
+        model.addAttribute("flight", flightService.getFlightById(id));
+        model.addAttribute("airplanes", airplaneService.getAllAirplanes());
+        model.addAttribute("noticeBoards", noticeBoardService.getAllNoticeBoards());
+        return "flight/edit";
+    }
+
+    @PostMapping("/{id}")
+    public String update(@PathVariable("id") String id,
+                         @RequestParam("name") String name,
+                         @RequestParam("airplaneId") String airplaneId,
+                         @RequestParam("noticeBoardId") String noticeBoardId,
+                         @RequestParam("departureTime")
+                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime departureTime) {
+        flightService.updateFlight(id, name, airplaneId, noticeBoardId, departureTime);
+        return "redirect:/flights";
+    }
 }

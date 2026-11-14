@@ -51,4 +51,20 @@ public class FlightAssignmentController {
         assignmentService.removeAssignment(id);
         return "redirect:/flight-assignments";
     }
+
+    @GetMapping("/{id}/edit")
+    public String editForm(@PathVariable("id") String id, Model model) {
+        model.addAttribute("assignment", assignmentService.getAssignmentById(id));
+        model.addAttribute("flights", flightService.getAllFlights());
+        model.addAttribute("staffMembers", staffService.getAllStaff());
+        return "flightassignment/edit";
+    }
+
+    @PostMapping("/{id}")
+    public String update(@PathVariable("id") String id,
+                         @RequestParam("flightId") String flightId,
+                         @RequestParam("staffId") String staffId) {
+        assignmentService.updateAssignment(id, flightId, staffId);
+        return "redirect:/flight-assignments";
+    }
 }

@@ -32,6 +32,30 @@ public class StaffService {
         return employee;
     }
 
+    public AirlineEmployee updateAirlineEmployee(String id, String name, String role) {
+        checkNotBlank(name, "Name");
+        checkNotBlank(role, "Role");
+        if (!(getStaffById(id) instanceof AirlineEmployee employee)) {
+            throw new IllegalArgumentException("Staff member is not an airline employee: " + id);
+        }
+        employee.setName(name);
+        employee.setRole(role);
+        staffRepository.save(employee);
+        return employee;
+    }
+
+    public AirportEmployee updateAirportEmployee(String id, String name, String designation, String department) {
+        checkNotBlank(name, "Name");
+        if (!(getStaffById(id) instanceof AirportEmployee employee)) {
+            throw new IllegalArgumentException("Staff member is not an airport employee: " + id);
+        }
+        employee.setName(name);
+        employee.setDesignation(designation);
+        employee.setDepartment(department);
+        staffRepository.save(employee);
+        return employee;
+    }
+
     public List<Staff> getAllStaff() {
         return staffRepository.findAll();
     }

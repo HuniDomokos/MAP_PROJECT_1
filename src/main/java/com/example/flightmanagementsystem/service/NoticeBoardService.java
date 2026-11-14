@@ -31,6 +31,20 @@ public class NoticeBoardService {
             .orElseThrow(() -> new IllegalArgumentException("Notice board not found: " + id));
     }
 
+    public NoticeBoard updateNoticeBoard(String id, LocalDate date) {
+        if (date == null) {
+            throw new IllegalArgumentException("Date must not be null");
+        }
+        NoticeBoard board = getNoticeBoardById(id);
+        boolean flightOnOtherDay = board.getFlightsOfTheDay().stream()
+            .anyMatch(f -> !f.getDepartureTime().toLocalDate().equals(date));
+        if (flightOnOtherDay) {
+            throw new IllegalStateException("Date cannot change: flights of this notice board depart on the current date");
+        }
+        board.setDate(date);
+        return noticeBoardRepository.save(board);
+    }
+
     public void deleteNoticeBoard(String id) {
         NoticeBoard board = getNoticeBoardById(id);
         if (!board.getFlightsOfTheDay().isEmpty()) {

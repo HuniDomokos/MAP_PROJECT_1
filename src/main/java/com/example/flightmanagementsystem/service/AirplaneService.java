@@ -32,6 +32,12 @@ public class AirplaneService {
     public Airplane updateAirplane(String id, int number, int capacity) {
         validate(capacity);
         Airplane airplane = getAirplaneById(id);
+        for (Flight flight : airplane.getFlights()) {
+            if (flight.getTickets().size() > capacity) {
+                throw new IllegalStateException(
+                    "Capacity is smaller than the tickets already booked on flight " + flight.getName());
+            }
+        }
         airplane.setNumber(number);
         airplane.setCapacity(capacity);
         return airplaneRepository.save(airplane);

@@ -42,4 +42,19 @@ public class PassengerController {
         passengerService.deletePassenger(id);
         return "redirect:/passengers";
     }
+
+    @GetMapping("/{id}/edit")
+    public String editForm(@PathVariable("id") String id, Model model) {
+        model.addAttribute("passenger", passengerService.getPassengerById(id));
+        return "passenger/edit";
+    }
+
+    @PostMapping("/{id}")
+    public String update(@PathVariable("id") String id,
+                         @RequestParam("name") String name,
+                         @RequestParam("currency") String currency,
+                         @RequestParam("email") String email) {
+        passengerService.updatePassenger(id, name, currency, email);
+        return "redirect:/passengers";
+    }
 }

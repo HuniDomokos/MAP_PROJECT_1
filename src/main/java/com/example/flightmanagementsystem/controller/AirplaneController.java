@@ -41,4 +41,18 @@ public class AirplaneController {
         airplaneService.deleteAirplane(id);
         return "redirect:/airplanes";
     }
+
+    @GetMapping("/{id}/edit")
+    public String editForm(@PathVariable("id") String id, Model model) {
+        model.addAttribute("airplane", airplaneService.getAirplaneById(id));
+        return "airplane/edit";
+    }
+
+    @PostMapping("/{id}")
+    public String update(@PathVariable("id") String id,
+                         @RequestParam("number") int number,
+                         @RequestParam("capacity") int capacity) {
+        airplaneService.updateAirplane(id, number, capacity);
+        return "redirect:/airplanes";
+    }
 }

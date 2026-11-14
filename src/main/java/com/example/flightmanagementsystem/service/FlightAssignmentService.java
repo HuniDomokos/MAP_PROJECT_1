@@ -40,6 +40,42 @@ public class FlightAssignmentService {
         return assignment;
     }
 
+    public FlightAssignment updateAssignment(String id, String flightId, String staffId) {
+        FlightAssignment assignment = getAssignmentById(id);
+        Flight flight = flightRepository.findById(flightId)
+            .orElseThrow(() -> new IllegalArgumentException("Flight not found: " + flightId));
+        Staff staff = staffRepository.findById(staffId)
+            .orElseThrow(() -> new IllegalArgumentException("Staff not found: " + staffId));
+
+        // the assignment itself does not count as a duplicate
+        boolean exists = getAssignmentsByFlight(flightId).stream()
+            .anyMatch(a -> a.getStaffId().equals(staffId) && !a.getId().equals(id));
+        if (exists) {
+            throw new IllegalStateException("Staff already assigned to this flight");
+        }
+
+        // take the assignment out of the old lists, then put it into the new ones
+        flightRepository.findById(assignment.getFlightId())
+            .ifPresent(f -> f.removeFlightAssignment(assignment));
+        staffRepository.findById(assignment.getStaffId()).ifPresent(s -> {
+            if (s instanceof AirlineEmployee employee) {
+                employee.removeAssignment(assignment);
+            }
+        });
+        assignment.setFlightId(flightId);
+        assignment.setStaffId(staffId);
+        flight.addFlightAssignment(assignment);
+        if (staff instanceof AirlineEmployee employee) {
+            employee.addAssignment(assignment);
+        }
+        return assignmentRepository.save(assignment);
+    }
+
+    public FlightAssignment getAssignmentById(String id) {
+        return assignmentRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Assignment not found: " + id));
+    }
+
     public List<FlightAssignment> getAllAssignments() {
         return assignmentRepository.findAll();
     }

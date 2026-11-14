@@ -53,4 +53,22 @@ public class TicketController {
         ticketService.cancelTicket(id);
         return "redirect:/tickets";
     }
+
+    @GetMapping("/{id}/edit")
+    public String editForm(@PathVariable("id") String id, Model model) {
+        model.addAttribute("ticket", ticketService.getTicketById(id));
+        model.addAttribute("passengers", passengerService.getAllPassengers());
+        model.addAttribute("flights", flightService.getAllFlights());
+        return "ticket/edit";
+    }
+
+    @PostMapping("/{id}")
+    public String update(@PathVariable("id") String id,
+                         @RequestParam("passengerId") String passengerId,
+                         @RequestParam("flightId") String flightId,
+                         @RequestParam("seatNumber") String seatNumber,
+                         @RequestParam("price") double price) {
+        ticketService.updateTicket(id, passengerId, flightId, seatNumber, price);
+        return "redirect:/tickets";
+    }
 }

@@ -30,6 +30,9 @@ public class LuggageService {
             throw new IllegalArgumentException("Status must not be null");
         }
         Luggage luggage = getLuggageById(luggageId);
+        if (luggage.getStatus() == newStatus) {
+            return luggage;
+        }
         if (!luggage.getStatus().canChangeTo(newStatus)) {
             throw new IllegalStateException(
                 "Invalid transition: " + luggage.getStatus() + " -> " + newStatus);

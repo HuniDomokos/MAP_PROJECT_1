@@ -57,6 +57,50 @@ public class TicketService {
         return ticket;
     }
 
+    public Ticket updateTicket(String id, String passengerId, String flightId, String seatNumber, double price) {
+        if (seatNumber == null || seatNumber.isBlank()) {
+            throw new IllegalArgumentException("Seat number must not be empty");
+        }
+        if (price < 0) {
+            throw new IllegalArgumentException("Price must not be negative");
+        }
+        Ticket ticket = getTicketById(id);
+        Passenger passenger = passengerRepository.findById(passengerId)
+            .orElseThrow(() -> new IllegalArgumentException("Passenger not found: " + passengerId));
+        Flight flight = flightRepository.findById(flightId)
+            .orElseThrow(() -> new IllegalArgumentException("Flight not found: " + flightId));
+        Airplane airplane = airplaneRepository.findById(flight.getAirplaneId())
+            .orElseThrow(() -> new IllegalStateException("Airplane of flight not found"));
+
+        // the ticket itself must not count against the capacity or the seat check
+        List<Ticket> otherTickets = getTicketsByFlight(flightId).stream()
+            .filter(t -> !t.getId().equals(id))
+            .toList();
+        if (otherTickets.size() >= airplane.getCapacity()) {
+            throw new IllegalStateException("Flight is fully booked");
+        }
+        boolean seatTaken = otherTickets.stream()
+            .anyMatch(t -> t.getSeatNumber().equals(seatNumber));
+        if (seatTaken) {
+            throw new IllegalStateException("Seat already taken: " + seatNumber);
+        }
+
+        // keep the in-memory relation lists in sync when the references change
+        if (!ticket.getPassengerId().equals(passengerId)) {
+            passengerRepository.findById(ticket.getPassengerId()).ifPresent(p -> p.removeTicket(ticket));
+            passenger.addTicket(ticket);
+        }
+        if (!ticket.getFlightId().equals(flightId)) {
+            flightRepository.findById(ticket.getFlightId()).ifPresent(f -> f.removeTicket(ticket));
+            flight.addTicket(ticket);
+        }
+        ticket.setPassengerId(passengerId);
+        ticket.setFlightId(flightId);
+        ticket.setSeatNumber(seatNumber);
+        ticket.setPrice(price);
+        return ticketRepository.save(ticket);
+    }
+
     public void cancelTicket(String ticketId) {
         Ticket ticket = getTicketById(ticketId);
         passengerRepository.findById(ticket.getPassengerId()).ifPresent(p -> p.removeTicket(ticket));

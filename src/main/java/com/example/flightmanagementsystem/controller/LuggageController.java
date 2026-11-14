@@ -1,5 +1,8 @@
 package com.example.flightmanagementsystem.controller;
 
+import java.util.List;
+import java.util.Arrays;
+import com.example.flightmanagementsystem.model.Luggage;
 import com.example.flightmanagementsystem.service.LuggageService;
 import com.example.flightmanagementsystem.service.TicketService;
 import org.springframework.stereotype.Controller;
@@ -42,6 +45,25 @@ public class LuggageController {
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable("id") String id) {
         luggageService.deleteLuggage(id);
+        return "redirect:/luggage";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String editForm(@PathVariable("id") String id, Model model) {
+        Luggage luggage = luggageService.getLuggageById(id);
+        // only the current status and the statuses it may change to
+        List<Luggage.Status> statuses = Arrays.stream(Luggage.Status.values())
+                .filter(s -> s == luggage.getStatus() || luggage.getStatus().canChangeTo(s))
+                .toList();
+        model.addAttribute("luggage", luggage);
+        model.addAttribute("statuses", statuses);
+        return "luggage/edit";
+    }
+
+    @PostMapping("/{id}")
+    public String update(@PathVariable("id") String id,
+                         @RequestParam("status") Luggage.Status status) {
+        luggageService.updateStatus(id, status);
         return "redirect:/luggage";
     }
 }
