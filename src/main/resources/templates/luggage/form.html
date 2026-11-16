@@ -8,7 +8,7 @@
     <form th:action="@{/luggage}" method="post">
         <label>Ticket
             <select name="ticketId" required>
-                <option th:each="o : ${tickets}" th:value="${o.id}" th:text="${'Seat ' + o.seatNumber + ' (ticket ' + #strings.substring(o.id, 0, 8) + ')'}">option</option>
+                <option th:each="o : ${tickets}" th:value="${o.id}" th:text="${'Seat ' + o.seatNumber + ' (ticket ' + o.id + ')'}">option</option>
             </select>
         </label>
         <button type="submit">Create</button>
