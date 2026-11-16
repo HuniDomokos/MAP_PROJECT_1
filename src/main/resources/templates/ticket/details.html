@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Ticket Details')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main>
+  <h1>Ticket Details</h1>
+  <table>
+    <tr><th>ID</th><td th:text="${ticket.id}">ID</td></tr>
+    <tr><th>Passenger ID</th><td th:text="${ticket.passengerId}">Passenger ID</td></tr>
+    <tr><th>Flight ID</th><td th:text="${ticket.flightId}">Flight ID</td></tr>
+    <tr><th>Seat Number</th><td th:text="${ticket.seatNumber}">Seat</td></tr>
+    <tr><th>Price</th><td th:text="${ticket.price}">Price</td></tr>
+  </table>
+
+  <h2>Registered Luggage</h2>
+  <table>
+    <thead>
+    <tr><th>Luggage ID</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+    <tr th:each="l : ${ticket.luggages}">
+      <td th:text="${l.id}">ID</td>
+      <td th:text="${l.status}">Status</td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(ticket.luggages)}">
+      <td colspan="2">No luggage registered for this ticket.</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <p style="margin-top: 1rem;">
+    <a class="button" th:href="@{'/tickets/' + ${ticket.id} + '/edit'}">Edit</a>
+    <a th:href="@{/tickets}" style="margin-left: 0.5rem;">Back to list</a>
+  </p>
+</main>
+</body>
+</html>

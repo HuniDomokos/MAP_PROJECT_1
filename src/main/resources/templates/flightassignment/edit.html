@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Edit flight assignment')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main>
+  <h1>Edit flight assignment</h1>
+  <form th:action="@{'/flight-assignments/' + ${assignment.id}}" method="post">
+    <label>ID
+      <input type="text" th:value="${assignment.id}" readonly disabled>
+    </label>
+    <label>Flight
+      <select name="flightId" required>
+        <option th:each="o : ${flights}"
+                th:value="${o.id}"
+                th:text="${o.name + ' (' + o.departureTime + ')'}"
+                th:selected="${o.id == assignment.flightId}">option</option>
+      </select>
+    </label>
+    <label>Staff member
+      <select name="staffId" required>
+        <option th:each="o : ${staffMembers}"
+                th:value="${o.id}"
+                th:text="${o.name}"
+                th:selected="${o.id == assignment.staffId}">option</option>
+      </select>
+    </label>
+    <button type="submit">Save</button>
+    <a th:href="@{/flight-assignments}">Cancel</a>
+  </form>
+</main>
+</body>
+</html>

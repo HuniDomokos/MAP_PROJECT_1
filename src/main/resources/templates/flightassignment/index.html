@@ -8,14 +8,16 @@
     <p><a class="button" th:href="@{/flight-assignments/new}">New flight assignment</a></p>
     <table>
         <thead>
-        <tr><th>ID</th><th>Flight ID</th><th>Staff ID</th><th></th></tr>
+        <tr><th>ID</th><th>Flight ID</th><th>Staff ID</th><th>Actions</th></tr>
         </thead>
         <tbody>
         <tr th:each="item : ${assignments}">
             <td th:text="${item.id}">ID</td>
             <td th:text="${item.flightId}">Flight ID</td>
             <td th:text="${item.staffId}">Staff ID</td>
-            <td>
+            <td style="display: flex; gap: 0.4rem; align-items: center;">
+                <a class="button" th:href="@{'/flight-assignments/' + ${item.id}}">Details</a>
+                <a class="button" th:href="@{'/flight-assignments/' + ${item.id} + '/edit'}">Edit</a>
                 <form th:action="@{'/flight-assignments/' + ${item.id} + '/delete'}" method="post">
                     <button type="submit">Delete</button>
                 </form>

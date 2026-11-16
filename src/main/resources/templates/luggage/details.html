@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Luggage Details')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main>
+  <h1>Luggage Details</h1>
+  <table>
+    <tr><th>ID</th><td th:text="${luggage.id}">ID</td></tr>
+    <tr><th>Ticket ID</th><td th:text="${luggage.ticketId}">Ticket ID</td></tr>
+    <tr><th>Status</th><td th:text="${luggage.status}">Status</td></tr>
+  </table>
+
+  <p style="margin-top: 1rem;">
+    <a class="button" th:href="@{'/luggage/' + ${luggage.id} + '/edit'}">Edit</a>
+    <a th:href="@{/luggage}" style="margin-left: 0.5rem;">Back to list</a>
+  </p>
+</main>
+</body>
+</html>

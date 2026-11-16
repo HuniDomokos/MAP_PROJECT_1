@@ -58,6 +58,12 @@ public class FlightController {
         return "redirect:/flights";
     }
 
+    @GetMapping("/{id}")
+    public String details(@PathVariable("id") String id, Model model) {
+        model.addAttribute("flight", flightService.getFlightById(id));
+        return "flight/details";
+    }
+
     @GetMapping("/{id}/edit")
     public String editForm(@PathVariable("id") String id, Model model) {
         model.addAttribute("flight", flightService.getFlightById(id));

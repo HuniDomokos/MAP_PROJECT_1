@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Edit staff member')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main>
+  <h1>Edit staff member</h1>
+  <form th:action="@{'/staff/' + ${staff.id}}" method="post">
+    <label>ID
+      <input type="text" th:value="${staff.id}" readonly disabled>
+    </label>
+    <label>Type
+      <input type="text" th:value="${type == 'AIRLINE' ? 'Airline employee' : 'Airport employee'}" readonly disabled>
+    </label>
+    <label>Name
+      <input type="text" name="name" th:value="${staff.name}" required>
+    </label>
+    <label th:if="${type == 'AIRLINE'}">Role
+      <input type="text" name="role" th:value="${staff.role}" required>
+    </label>
+    <label th:if="${type == 'AIRPORT'}">Designation
+      <input type="text" name="designation" th:value="${staff.designation}" required>
+    </label>
+    <label th:if="${type == 'AIRPORT'}">Department
+      <input type="text" name="department" th:value="${staff.department}" required>
+    </label>
+    <button type="submit">Save</button>
+    <a th:href="@{/staff}">Cancel</a>
+  </form>
+</main>
+</body>
+</html>

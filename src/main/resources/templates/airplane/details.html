@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Airplane Details')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main>
+  <h1>Airplane Details</h1>
+  <table>
+    <tr><th>ID</th><td th:text="${airplane.id}">ID</td></tr>
+    <tr><th>Number</th><td th:text="${airplane.number}">Number</td></tr>
+    <tr><th>Capacity</th><td th:text="${airplane.capacity}">Capacity</td></tr>
+  </table>
+
+  <h2>Assigned Flights</h2>
+  <table>
+    <thead>
+    <tr><th>Flight ID</th><th>Name</th><th>Departure Time</th></tr>
+    </thead>
+    <tbody>
+    <tr th:each="f : ${airplane.flights}">
+      <td th:text="${f.id}">ID</td>
+      <td th:text="${f.name}">Name</td>
+      <td th:text="${f.departureTime}">Departure</td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(airplane.flights)}">
+      <td colspan="3">No flights assigned to this airplane.</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <p style="margin-top: 1rem;">
+    <a class="button" th:href="@{'/airplanes/' + ${airplane.id} + '/edit'}">Edit</a>
+    <a th:href="@{/airplanes}" style="margin-left: 0.5rem;">Back to list</a>
+  </p>
+</main>
+</body>
+</html>

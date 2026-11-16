@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Passenger Details')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main>
+  <h1>Passenger Details</h1>
+  <table>
+    <tr><th>ID</th><td th:text="${passenger.id}">ID</td></tr>
+    <tr><th>Name</th><td th:text="${passenger.name}">Name</td></tr>
+    <tr><th>Currency</th><td th:text="${passenger.currency}">Currency</td></tr>
+    <tr><th>Email</th><td th:text="${passenger.email}">Email</td></tr>
+  </table>
+
+  <h2>Booked Tickets</h2>
+  <table>
+    <thead>
+    <tr><th>Ticket ID</th><th>Flight ID</th><th>Seat Number</th><th>Price</th></tr>
+    </thead>
+    <tbody>
+    <tr th:each="t : ${passenger.tickets}">
+      <td th:text="${t.id}">ID</td>
+      <td th:text="${t.flightId}">Flight ID</td>
+      <td th:text="${t.seatNumber}">Seat</td>
+      <td th:text="${t.price}">Price</td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(passenger.tickets)}">
+      <td colspan="4">No tickets booked by this passenger.</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <p style="margin-top: 1rem;">
+    <a class="button" th:href="@{'/passengers/' + ${passenger.id} + '/edit'}">Edit</a>
+    <a th:href="@{/passengers}" style="margin-left: 0.5rem;">Back to list</a>
+  </p>
+</main>
+</body>
+</html>

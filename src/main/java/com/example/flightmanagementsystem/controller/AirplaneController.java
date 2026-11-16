@@ -42,6 +42,12 @@ public class AirplaneController {
         return "redirect:/airplanes";
     }
 
+    @GetMapping("/{id}")
+    public String details(@PathVariable("id") String id, Model model) {
+        model.addAttribute("airplane", airplaneService.getAirplaneById(id));
+        return "airplane/details";
+    }
+
     @GetMapping("/{id}/edit")
     public String editForm(@PathVariable("id") String id, Model model) {
         model.addAttribute("airplane", airplaneService.getAirplaneById(id));

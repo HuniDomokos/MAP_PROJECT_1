@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Edit ticket')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main>
+  <h1>Edit ticket</h1>
+  <form th:action="@{'/tickets/' + ${ticket.id}}" method="post">
+    <label>ID
+      <input type="text" th:value="${ticket.id}" readonly disabled>
+    </label>
+    <label>Passenger
+      <select name="passengerId" required>
+        <option th:each="o : ${passengers}"
+                th:value="${o.id}"
+                th:text="${o.name}"
+                th:selected="${o.id == ticket.passengerId}">option</option>
+      </select>
+    </label>
+    <label>Flight
+      <select name="flightId" required>
+        <option th:each="o : ${flights}"
+                th:value="${o.id}"
+                th:text="${o.name + ' (' + o.departureTime + ')'}"
+                th:selected="${o.id == ticket.flightId}">option</option>
+      </select>
+    </label>
+    <label>Seat number
+      <input type="text" name="seatNumber" th:value="${ticket.seatNumber}" required>
+    </label>
+    <label>Price
+      <input type="number" name="price" th:value="${ticket.price}" required min="0" step="0.01">
+    </label>
+    <button type="submit">Save</button>
+    <a th:href="@{/tickets}">Cancel</a>
+  </form>
+</main>
+</body>
+</html>

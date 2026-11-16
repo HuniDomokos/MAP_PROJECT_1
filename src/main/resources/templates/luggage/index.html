@@ -8,14 +8,16 @@
     <p><a class="button" th:href="@{/luggage/new}">New luggage</a></p>
     <table>
         <thead>
-        <tr><th>ID</th><th>Ticket ID</th><th>Status</th><th></th></tr>
+        <tr><th>ID</th><th>Ticket ID</th><th>Status</th><th>Actions</th></tr>
         </thead>
         <tbody>
         <tr th:each="item : ${luggageList}">
             <td th:text="${item.id}">ID</td>
             <td th:text="${item.ticketId}">Ticket ID</td>
             <td th:text="${item.status}">Status</td>
-            <td>
+            <td style="display: flex; gap: 0.4rem; align-items: center;">
+                <a class="button" th:href="@{'/luggage/' + ${item.id}}">Details</a>
+                <a class="button" th:href="@{'/luggage/' + ${item.id} + '/edit'}">Edit</a>
                 <form th:action="@{'/luggage/' + ${item.id} + '/delete'}" method="post">
                     <button type="submit">Delete</button>
                 </form>

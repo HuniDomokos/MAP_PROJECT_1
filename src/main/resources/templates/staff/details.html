@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Staff Details')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main>
+  <h1>Staff Details</h1>
+  <table>
+    <tr><th>ID</th><td th:text="${staff.id}">ID</td></tr>
+    <tr><th>Type</th><td th:text="${type == 'AIRLINE' ? 'Airline employee' : 'Airport employee'}">Type</td></tr>
+    <tr><th>Name</th><td th:text="${staff.name}">Name</td></tr>
+    <tr th:if="${type == 'AIRLINE'}"><th>Role</th><td th:text="${staff.role}">Role</td></tr>
+    <tr th:if="${type == 'AIRPORT'}"><th>Designation</th><td th:text="${staff.designation}">Designation</td></tr>
+    <tr th:if="${type == 'AIRPORT'}"><th>Department</th><td th:text="${staff.department}">Department</td></tr>
+  </table>
+
+  <div th:if="${type == 'AIRLINE'}">
+    <h2>Flight Assignments</h2>
+    <table>
+      <thead>
+      <tr><th>Assignment ID</th><th>Flight ID</th></tr>
+      </thead>
+      <tbody>
+      <tr th:each="a : ${staff.assignments}">
+        <td th:text="${a.id}">ID</td>
+        <td th:text="${a.flightId}">Flight ID</td>
+      </tr>
+      <tr th:if="${#lists.isEmpty(staff.assignments)}">
+        <td colspan="2">No flight assignments for this employee.</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p style="margin-top: 1rem;">
+    <a class="button" th:href="@{'/staff/' + ${staff.id} + '/edit'}">Edit</a>
+    <a th:href="@{/staff}" style="margin-left: 0.5rem;">Back to list</a>
+  </p>
+</main>
+</body>
+</html>

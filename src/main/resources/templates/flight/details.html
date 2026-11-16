@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Flight Details')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main>
+    <h1>Flight Details</h1>
+    <table>
+        <tr><th>ID</th><td th:text="${flight.id}">ID</td></tr>
+        <tr><th>Name</th><td th:text="${flight.name}">Name</td></tr>
+        <tr><th>Airplane ID</th><td th:text="${flight.airplaneId}">Airplane ID</td></tr>
+        <tr><th>Notice Board ID</th><td th:text="${flight.noticeBoardId}">Notice Board ID</td></tr>
+        <tr><th>Departure Time</th><td th:text="${flight.departureTime}">Departure</td></tr>
+    </table>
+
+    <h2>Booked Tickets</h2>
+    <table>
+        <thead>
+        <tr><th>Ticket ID</th><th>Passenger ID</th><th>Seat</th><th>Price</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="t : ${flight.tickets}">
+            <td th:text="${t.id}">ID</td>
+            <td th:text="${t.passengerId}">Passenger</td>
+            <td th:text="${t.seatNumber}">Seat</td>
+            <td th:text="${t.price}">Price</td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(flight.tickets)}">
+            <td colspan="4">No tickets booked for this flight.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2>Flight Assignments</h2>
+    <table>
+        <thead>
+        <tr><th>Assignment ID</th><th>Staff ID</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="a : ${flight.flightAssignments}">
+            <td th:text="${a.id}">ID</td>
+            <td th:text="${a.staffId}">Staff ID</td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(flight.flightAssignments)}">
+            <td colspan="2">No staff assigned to this flight.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p style="margin-top: 1rem;">
+        <a class="button" th:href="@{'/flights/' + ${flight.id} + '/edit'}">Edit</a>
+        <a th:href="@{/flights}" style="margin-left: 0.5rem;">Back to list</a>
+    </p>
+</main>
+</body>
+</html>

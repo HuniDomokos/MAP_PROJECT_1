@@ -45,6 +45,12 @@ public class NoticeBoardController {
         return "redirect:/notice-boards";
     }
 
+    @GetMapping("/{id}")
+    public String details(@PathVariable("id") String id, Model model) {
+        model.addAttribute("noticeBoard", noticeBoardService.getNoticeBoardById(id));
+        return "noticeboard/details";
+    }
+
     @GetMapping("/{id}/edit")
     public String editForm(@PathVariable("id") String id, Model model) {
         model.addAttribute("noticeBoard", noticeBoardService.getNoticeBoardById(id));

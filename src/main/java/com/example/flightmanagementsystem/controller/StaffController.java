@@ -62,6 +62,14 @@ public class StaffController {
         return "redirect:/staff";
     }
 
+    @GetMapping("/{id}")
+    public String details(@PathVariable("id") String id, Model model) {
+        Staff staff = staffService.getStaffById(id);
+        model.addAttribute("staff", staff);
+        model.addAttribute("type", staff instanceof AirlineEmployee ? "AIRLINE" : "AIRPORT");
+        return "staff/details";
+    }
+
     @GetMapping("/{id}/edit")
     public String editForm(@PathVariable("id") String id, Model model) {
         Staff staff = staffService.getStaffById(id);

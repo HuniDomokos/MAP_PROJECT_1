@@ -8,14 +8,16 @@
     <p><a class="button" th:href="@{/notice-boards/new}">New notice board</a></p>
     <table>
         <thead>
-        <tr><th>ID</th><th>Date</th><th>Flights of the day</th><th></th></tr>
+        <tr><th>ID</th><th>Date</th><th>Flights of the day</th><th>Actions</th></tr>
         </thead>
         <tbody>
         <tr th:each="item : ${noticeBoards}">
             <td th:text="${item.id}">ID</td>
             <td th:text="${item.date}">Date</td>
             <td th:text="${item.flightsOfTheDay.size()}">Flights of the day</td>
-            <td>
+            <td style="display: flex; gap: 0.4rem; align-items: center;">
+                <a class="button" th:href="@{'/notice-boards/' + ${item.id}}">Details</a>
+                <a class="button" th:href="@{'/notice-boards/' + ${item.id} + '/edit'}">Edit</a>
                 <form th:action="@{'/notice-boards/' + ${item.id} + '/delete'}" method="post">
                     <button type="submit">Delete</button>
                 </form>

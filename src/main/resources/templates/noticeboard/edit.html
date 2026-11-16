@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Edit notice board')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main>
+  <h1>Edit notice board</h1>
+  <form th:action="@{'/notice-boards/' + ${noticeBoard.id}}" method="post">
+    <label>ID
+      <input type="text" th:value="${noticeBoard.id}" readonly disabled>
+    </label>
+    <label>Date
+      <input type="date" name="date" th:value="${noticeBoard.date}" required>
+    </label>
+    <button type="submit">Save</button>
+    <a th:href="@{/notice-boards}">Cancel</a>
+  </form>
+</main>
+</body>
+</html>

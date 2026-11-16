@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Edit passenger')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main>
+  <h1>Edit passenger</h1>
+  <form th:action="@{'/passengers/' + ${passenger.id}}" method="post">
+    <label>ID
+      <input type="text" th:value="${passenger.id}" readonly disabled>
+    </label>
+    <label>Name
+      <input type="text" name="name" th:value="${passenger.name}" required>
+    </label>
+    <label>Currency
+      <input type="text" name="currency" th:value="${passenger.currency}" required>
+    </label>
+    <label>Email
+      <input type="email" name="email" th:value="${passenger.email}" required>
+    </label>
+    <button type="submit">Save</button>
+    <a th:href="@{/passengers}">Cancel</a>
+  </form>
+</main>
+</body>
+</html>

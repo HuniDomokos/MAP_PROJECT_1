@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Edit flight')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main>
+  <h1>Edit flight</h1>
+  <form th:action="@{'/flights/' + ${flight.id}}" method="post">
+    <label>ID
+      <input type="text" th:value="${flight.id}" readonly disabled>
+    </label>
+    <label>Name
+      <input type="text" name="name" th:value="${flight.name}" required>
+    </label>
+    <label>Airplane
+      <select name="airplaneId" required>
+        <option th:each="o : ${airplanes}"
+                th:value="${o.id}"
+                th:text="${'No. ' + o.number + ' (capacity ' + o.capacity + ')'}"
+                th:selected="${o.id == flight.airplaneId}">option</option>
+      </select>
+    </label>
+    <label>Notice board
+      <select name="noticeBoardId" required>
+        <option th:each="o : ${noticeBoards}"
+                th:value="${o.id}"
+                th:text="${o.date}"
+                th:selected="${o.id == flight.noticeBoardId}">option</option>
+      </select>
+    </label>
+    <label>Departure time
+      <input type="datetime-local" name="departureTime"
+             th:value="${#temporals.format(flight.departureTime, 'yyyy-MM-dd''T''HH:mm')}" required>
+    </label>
+    <button type="submit">Save</button>
+    <a th:href="@{/flights}">Cancel</a>
+  </form>
+</main>
+</body>
+</html>

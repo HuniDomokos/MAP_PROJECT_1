@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Flight Assignment Details')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main>
+  <h1>Flight Assignment Details</h1>
+  <table>
+    <tr><th>ID</th><td th:text="${assignment.id}">ID</td></tr>
+    <tr><th>Flight ID</th><td th:text="${assignment.flightId}">Flight ID</td></tr>
+    <tr><th>Staff ID</th><td th:text="${assignment.staffId}">Staff ID</td></tr>
+  </table>
+
+  <p style="margin-top: 1rem;">
+    <a class="button" th:href="@{'/flight-assignments/' + ${assignment.id} + '/edit'}">Edit</a>
+    <a th:href="@{/flight-assignments}" style="margin-left: 0.5rem;">Back to list</a>
+  </p>
+</main>
+</body>
+</html>

@@ -48,6 +48,12 @@ public class LuggageController {
         return "redirect:/luggage";
     }
 
+    @GetMapping("/{id}")
+    public String details(@PathVariable("id") String id, Model model) {
+        model.addAttribute("luggage", luggageService.getLuggageById(id));
+        return "luggage/details";
+    }
+
     @GetMapping("/{id}/edit")
     public String editForm(@PathVariable("id") String id, Model model) {
         Luggage luggage = luggageService.getLuggageById(id);

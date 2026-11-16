@@ -8,7 +8,7 @@
     <p><a class="button" th:href="@{/tickets/new}">New ticket</a></p>
     <table>
         <thead>
-        <tr><th>ID</th><th>Passenger ID</th><th>Flight ID</th><th>Seat</th><th>Price</th><th></th></tr>
+        <tr><th>ID</th><th>Passenger ID</th><th>Flight ID</th><th>Seat</th><th>Price</th><th>Actions</th></tr>
         </thead>
         <tbody>
         <tr th:each="item : ${tickets}">
@@ -17,7 +17,9 @@
             <td th:text="${item.flightId}">Flight ID</td>
             <td th:text="${item.seatNumber}">Seat</td>
             <td th:text="${item.price}">Price</td>
-            <td>
+            <td style="display: flex; gap: 0.4rem; align-items: center;">
+                <a class="button" th:href="@{'/tickets/' + ${item.id}}">Details</a>
+                <a class="button" th:href="@{'/tickets/' + ${item.id} + '/edit'}">Edit</a>
                 <form th:action="@{'/tickets/' + ${item.id} + '/delete'}" method="post">
                     <button type="submit">Delete</button>
                 </form>
