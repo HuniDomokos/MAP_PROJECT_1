@@ -1,98 +1,39 @@
-# Flight Management System (Projektaufgabe 1 & 2)
+# Flight Management System
 
-## General Information
+A Spring Boot web application for managing flight operations (airplanes, flights, notice boards, passengers, tickets, luggage, staff, and flight assignments) featuring a Thymeleaf web interface and file-based JSON persistence.
 
-* **Topic:** Theme 2 - Flight Management System (Spring Boot, In-Memory)
-* **Course:** Advanced Programming Methods (MAP / Labor)
-* **Team Members:** Hunor-Tas Domokos, Vilmos Orbán
+## Technologies & Architecture
 
----
-
-## Architecture & Layered Organization
-
-The application strictly follows the **Layered Architecture** and **MVC (Model-View-Controller)** pattern, respecting clean code principles and **SOLID** guidelines:
-
-```text
-[ Client / Browser ]
-         │  HTTP (GET, POST)
-         ▼
-  1. Controller Layer       (@Controller)
-         │  Delegates requests
-         ▼
-  2. Service Layer          (@Service)
-         │  Enforces business rules
-         ▼
-  3. Repository Layer       (Generic CrudRepository<T, ID>)
-         │  In-Memory Storage (ConcurrentHashMap)
-         ▼
-  4. Model Layer            (Entities & OOP Hierarchy)
-```
-
-1. **`model` Layer:**
-   * Core entities based on the domain model: `Flight`, `Airplane`, `Passenger`, `Ticket`, `Luggage`, `NoticeBoard`, and `FlightAssignment`.
-   * Class hierarchy for employees: Abstract `Staff` base class extended by `AirlineEmployee` and `AirportEmployee` (Liskov Substitution Principle).
-   * Safe typing with enums: `Luggage.Status` (`CHECKED_IN`, `LOADED`, `DELIVERED`) prevents typographical errors and controls state transitions.
-   * Modern Java Date/Time API (`LocalDate`, `LocalDateTime`).
-
-2. **`repository` Layer (Refactored In-Memory Storage):**
-   * **Generic InMemory Implementation:** Eliminated CRUD code duplication across repositories by introducing a generic `InMemoryRepository<T, ID>` implementing `CrudRepository<T, ID>`.
-   * Thread-safe in-memory data store powered by `ConcurrentHashMap` and ID-extractor functions.
-   * Centralized bean registration in `RepositoryConfig`.
-
-3. **`service` Layer (Business Logic):**
-   * Centralizes all domain business logic, validation, and consistency checks.
-   * Relies on dependency injection via `CrudRepository` abstractions.
-   * **Referential Integrity on Deletion:** `StaffService.deleteStaff()` cross-checks the `FlightAssignmentRepository` before removing any staff member (both airline and airport personnel) to prevent orphaned assignments.
-
-4. **`controller` Layer & Thymeleaf Web Views (Project 2):**
-   * Spring MVC web controllers (`@Controller`) exposing standard CRUD endpoints.
-   * Clean separation between web actions and business logic.
+- **Backend:** Java, Spring Boot (Spring MVC)
+- **Frontend:** Thymeleaf, HTML5, CSS3
+- **Persistence:** File-based JSON storage using Jackson (`ObjectMapper` + `JavaTimeModule`)
+- **Architecture:** Layered architecture (`Model` $\rightarrow$ `Repository` $\rightarrow$ `Service` $\rightarrow$ `Controller` $\rightarrow$ `View`)
 
 ---
 
-## Web Interface (Projektaufgabe 2)
+## Projektaufgabe 3 Implementation
 
-The presentation layer is implemented with **Thymeleaf** templates located under `src/main/resources/templates/`.
+### 1. JSON Persistence (`InFileRepository<T, ID>`)
+- **Generic Repository:** `InFileRepository<T, ID>` implements `CrudRepository<T, ID>` and handles all JSON serialization and deserialization via Jackson.
+- **Entity-Specific Repositories:** All eight entities (`Airplane`, `Flight`, `NoticeBoard`, `Passenger`, `Ticket`, `Luggage`, `Staff`, `FlightAssignment`) have dedicated repository classes extending `InFileRepository` and passing their respective file paths.
+- **Polymorphic Serialization:** The `Staff` inheritance hierarchy (`AirlineEmployee` and `AirportEmployee`) is handled using `@JsonTypeInfo` and `@JsonSubTypes`.
+- **Initial Datasets:** Located in `src/main/resources/data/`, each entity has its own JSON file (`airplanes.json`, `flights.json`, `noticeboards.json`, `passengers.json`, `tickets.json`, `luggage.json`, `staff.json`, `flightassignments.json`) pre-populated with at least 10 valid records.
+- **Relation Linking (`RelationLinker`):** On startup, `RelationLinker` reconstructs object relationships across loaded entities using stored IDs (e.g., flights per airplane, tickets per passenger/flight, luggage per ticket), while `@JsonIgnore` prevents circular references during serialization.
 
-### Implemented Entities & Operations
-For each of the 8 main entities, full Create, Read, and Delete (CRUD) operations are supported:
-* **Airplanes:** `/airplanes`
-* **Flights:** `/flights`
-* **Passengers:** `/passengers`
-* **Tickets:** `/tickets`
-* **Luggage:** `/luggage`
-* **Staff:** `/staff`
-* **Notice Boards:** `/notice-boards`
-* **Flight Assignments:** `/flight-assignments`
-
-### URL Mapping Pattern
-Each entity follows standard conventions:
-* `GET /<entity>` — Renders the list table (`index.html`) with individual delete buttons.
-* `GET /<entity>/new` — Renders the creation form (`form.html`).
-* `POST /<entity>` — Submits the form data and persists the entity.
-* `POST /<entity>/{id}/delete` — Triggers safe deletion via `POST` requests.
-
-### Layout & Navigation
-A shared layout fragment (`templates/fragments/layout.html`) standardizes page headers, styling, and navigation across all views.
+### 2. Full Web CRUD Functionality
+All CRUD operations are supported via the web interface for every entity:
+- **List (Read All):** `GET /<entity>` – Displays all records in a table with action buttons.
+- **Details (Read One):** `GET /<entity>/{id}` – Displays all fields of a single record along with its linked sub-entities.
+- **Create:** `GET /<entity>/new` and `POST /<entity>` – Form for creating new records.
+- **Update (Edit):** `GET /<entity>/{id}/edit` and `POST /<entity>/{id}` – Pre-populated form for editing existing records with immediate persistence to the corresponding JSON file.
+- **Delete:** `POST /<entity>/{id}/delete` – Removes records (with dependency validation) and updates the JSON file.
 
 ---
 
-## Improvements & Addressed P1 Feedback
+## How to Run
 
-1. **CRUD Duplication Resolved:** Eight redundant repository classes were replaced by a single generic `InMemoryRepository<T, ID>`.
-2. **Staff Deletion Safety:** Staff members cannot be deleted if active flight assignments exist in `FlightAssignmentRepository`.
-3. **Typing Luggage Status:** Replaced raw string status fields with an explicit `Luggage.Status` enum and transition validator.
-4. **Interface Cleanup:** Streamlined service classes to maintain direct clarity without redundant interface boilerplate.
-
----
-
-## Running the Application
-
-1. Requires **JDK 17** (or newer).
-2. Clone the repository and open it in **IntelliJ IDEA**.
-3. Run `FlightManagementSystemApplication.java`.
-4. Open your browser and navigate to:
-   ```text
-   http://localhost:8080/airplanes
-   ```
-   Use the top navigation bar to explore and test all entities.
+1. Clone the repository and navigate to the project root directory.
+2. Start the application via Maven or your IDE (`FlightManagementSystemApplication`):
+   ```bash
+   ./mvnw spring-boot:run
+3. Open your browser at: http://localhost:8080/airplanes
